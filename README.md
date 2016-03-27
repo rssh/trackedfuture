@@ -10,13 +10,14 @@
 
 ## Usage
 
-  1.  publishLocal  tracked-future to you local repository
+  *  publishLocal  tracked-future to you local repository
 
-  2.  add to project which you debug, dependency:
+  *  add to project which you debug, dependency:
 ~~~ scala
 libraryDependencies += "com.github.rssh" %% "trackedfuture" % "0.1"
 ~~~
-  3.  when debug, enable agent 
+
+  *  when debug, enable agent 
 ~~~scala
 fork := true
 javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.1/jars/trackedfuture_2.11.jar"""
