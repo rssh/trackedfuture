@@ -27,7 +27,6 @@ object Main
 
   def f1(x: String): Future[Unit] =
    Future{
-     System.err.println(s"f1(${x})")
      throw new RuntimeException("AAA");
    }
 
