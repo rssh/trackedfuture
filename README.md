@@ -4,7 +4,7 @@
 
   Future, which when started - collect stack trace of origin thread and when handle exception - merge one with stack trace of this exception.
 
-  Also contains agent, which substitute the call of ```Future.apply''' to the call of ```TrackedFuture.apply'''  in bytecode.
+  Also contains agent, which substitute the call of ```Future.apply``` to the call of ```TrackedFuture.apply```  in bytecode.
 
  Useful for debugging. 
 
@@ -21,17 +21,44 @@ libraryDependencies += "com.github.rssh" %% "trackedfuture" % "0.1"
 ~~~scala
 fork := true
 javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.1/jars/trackedfuture_2.11.jar"""
-~~~ scala
+~~~
+
 
 ##  Results 
 
 Let's look at the next code:
 ~~~scala
+object Main
+{
+
+  def main(args: Array[String]):Unit =
+  {
+    val f = f0("222")
+    try {
+       val r = Await.result(f,10 seconds)
+    } catch {
+       // will print with f0 when agent is enabled
+       case ex: Throwable => ex.printStackTrace
+    }
+  }
+
+  def f0(x:String): Future[Unit] =
+  {
+    System.err.print("f0:");
+    f1(x)
+  }
+
+  def f1(x: String): Future[Unit] =
+   Future{
+     throw new RuntimeException("AAA");
+   }
+
+}
+
 ~~~
 
 With tracked future agent enabled, instead traces, which ends in top-level executor:
 
-~~~
 ~~~
 f0:java.lang.RuntimeException: AAA
   at trackedfuture.example.Main$$anonfun$f1$1.apply(Main.scala:30)
@@ -68,5 +95,5 @@ f0:java.lang.RuntimeException: AAA
 
 ## Additional Notes
  
-If you want 'right' version, which don't need dependency, package ```ASM''' inside agent jar and cleanup frames - don't hesitate to submit pull request ;)
+If you want 'right' version, which don't need dependency, package ```ASM``` inside agent jar and cleanup frames - don't hesitate to submit pull request ;)
 
