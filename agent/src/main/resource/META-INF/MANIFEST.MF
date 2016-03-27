@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: trackedfuture
+Implementation-Version: 0.1
+Specification-Vendor: com.github.rssh
+Specification-Title: trackedfuture
+Implementation-Vendor-Id: com.github.rssh
+Specification-Version: 0.1
+Implementation-Vendor: com.github.rssh
+Premain-Class: trackedfuture.agent.Agent
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
