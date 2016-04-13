@@ -2,9 +2,12 @@
 
 ##  Overview
 
-  Future, which when started - collect stack trace of origin thread and when handle exception - merge one with stack trace of this exception.
 
-  Also contains agent, which substitute the call of ```Future.apply''' to the call of ```TrackedFuture.apply'''  in bytecode.
+  Contains agent, which substitute in bytecode calls of 
+  ```Future.apply''' ```map```, ```flatMap``` ```filter``` to tracked versions, which save origin caller stack.
+
+   Ie. tracked version collect stack trace of origin thread when appropriative construction is created and then,
+  when handle exception, merge one with stack trace of this exception; 
 
  Useful for debugging. 
 
@@ -12,15 +15,10 @@
 
 1.  publishLocal  tracked-future to you local repository
 
-2.  add to project which you debug, dependency:
-~~~ scala
-libraryDependencies += "com.github.rssh" %% "trackedfuture" % "0.1"
-~~~
-
-3.  when debug, enable agent 
+2.  when debug, enable agent 
 ~~~scala
 fork := true
-javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.1/jars/trackedfuture_2.11.jar"""
+javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.2/jars/trackedfuture_2.11.jar"""
 ~~~ scala
 
 ##  Results 
@@ -68,5 +66,5 @@ f0:java.lang.RuntimeException: AAA
 
 ## Additional Notes
  
-If you want 'right' version, which don't need dependency, package ```ASM''' inside agent jar and cleanup frames - don't hesitate to submit pull request ;)
+If you want a version with more wrappend methods and frames cleanup - don't hesitate to submit pull request ;)
 

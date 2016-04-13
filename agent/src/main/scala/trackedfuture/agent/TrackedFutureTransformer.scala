@@ -15,7 +15,9 @@ class TrackedFutureTransformer extends ClassFileTransformer
         ||className.startsWith("com/sun/")
         ||className.startsWith("sun/")
         ||className.startsWith("scala/")
+        ||className.startsWith("trackedfuture/runtime/")
     ) {
+      //null to prevent memory leal
       classfileBuffer
     } else {
       //System.err.println("transforming class:"+className)

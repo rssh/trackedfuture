@@ -1,15 +1,16 @@
 
 scalaVersion := "2.11.8"
 
-organization := "com.github.rssh"
 name := "trackedfuture-example"
+version := "0.2"
 
-libraryDependencies += "com.github.rssh" %% "trackedfuture" % "0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 
-
 fork := true
-javaOptions += "-javaagent:../agent/target/scala-2.11/trackedfuture_2.11-0.1.jar"
-//javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.1/jars/trackedfuture_2.11.jar"""
+javaOptions += s"-javaagent:../agent/target/scala-2.11/trackedfuture_2.11-${version.value}.jar"
+// test assembly
+//javaOptions += s"-javaagent:../agent/target/scala-2.11/trackedfuture-assembly-${version.value}.jar"
+// test published assembly
+//javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.1/jars/trackedfuture_2.11-assembly.jar"""
 
 

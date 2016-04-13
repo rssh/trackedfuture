@@ -17,6 +17,11 @@ object Main
        // will print with f0 when agent is enabled
        case ex: Throwable => ex.printStackTrace
     }
+    try {
+       val r = Await.result(f3("AAA"),10 seconds)
+    } catch {
+       case ex: Throwable => ex.printStackTrace
+    }
   }
 
   def f0(x:String): Future[Unit] =
@@ -29,5 +34,24 @@ object Main
    Future{
      throw new RuntimeException("AAA");
    }
+
+  def f3(x: String):Future[Unit] = f4(x)
+
+  def f4(x: String):Future[Unit] =
+  {
+    Future{ "aaaa " } map { _ =>  throw new Exception("bbb-q1") }
+  }
+
+  def fFlatMap0():Future[Unit] = fFlatMap1()
+
+  def fFlatMap1():Future[Unit] = {
+    Future{ Future{ "aaaa " } } flatMap { _ =>  throw new Exception("bbb-q1") }
+  }
+
+  def fFilter0():Future[Unit] = fFilter1()
+
+  def fFilter1():Future[Unit] = {
+    Future{ () } filter { _ => false }
+  }
 
 }
