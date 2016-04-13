@@ -13,23 +13,49 @@
 
 ## Usage
 
-1.  publishLocal  tracked-future to you local repository
+  *  publishLocal  tracked-future to you local repository
 
-2.  when debug, enable agent 
+  *  when debug, enable agent 
 ~~~scala
 fork := true
-javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.2/jars/trackedfuture_2.11.jar"""
-~~~ scala
+javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.1/jars/trackedfuture_2.11.jar"""
+~~~
 
 ##  Results 
 
 Let's look at the next code:
 ~~~scala
+object Main
+{
+
+  def main(args: Array[String]):Unit =
+  {
+    val f = f0("222")
+    try {
+       val r = Await.result(f,10 seconds)
+    } catch {
+       // will print with f0 when agent is enabled
+       case ex: Throwable => ex.printStackTrace
+    }
+  }
+
+  def f0(x:String): Future[Unit] =
+  {
+    System.err.print("f0:");
+    f1(x)
+  }
+
+  def f1(x: String): Future[Unit] =
+   Future{
+     throw new RuntimeException("AAA");
+   }
+
+}
+
 ~~~
 
 With tracked future agent enabled, instead traces, which ends in top-level executor:
 
-~~~
 ~~~
 f0:java.lang.RuntimeException: AAA
   at trackedfuture.example.Main$$anonfun$f1$1.apply(Main.scala:30)
