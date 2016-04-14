@@ -54,4 +54,11 @@ object Main
     Future{ () } filter { _ => false }
   }
 
+  def withFilter0():Future[Unit] = withFilter1()
+
+  def withFilter1():Future[Unit] = {
+    Future{ () } withFilter { _ => throw new Exception("AAA") }
+  }
+
+
 }

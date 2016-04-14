@@ -29,6 +29,9 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
     callAndCheckMethod( Main.fFilter0(), "fFilter0")
   }
 
+  "MainCall" should "show origin method with withFilter " in {
+    callAndCheckMethod( Main.withFilter0(), "withFilter0")
+  }
 
   private def callAndCheckMethod(body: =>Future[_],method:String): Unit = {
     val f = body

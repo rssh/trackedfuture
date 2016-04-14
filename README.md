@@ -18,7 +18,7 @@
   *  when debug, enable agent 
 ~~~scala
 fork := true
-javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.1/jars/trackedfuture_2.11.jar"""
+javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.2/jars/trackedfuture_2.11-assembly.jar"""
 ~~~
 
 ##  Results 
