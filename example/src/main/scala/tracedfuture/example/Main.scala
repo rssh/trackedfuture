@@ -60,5 +60,11 @@ object Main
     Future{ () } withFilter { _ => throw new Exception("AAA") }
   }
 
+  def fCollect0(f:PartialFunction[String,String]):Future[String] =
+    fCollect1(f)
+
+  def fCollect1(f:PartialFunction[String,String]):Future[String] =
+    Future{ "aaa" } collect f
+
 
 }

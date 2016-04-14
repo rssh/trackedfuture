@@ -33,6 +33,11 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
     callAndCheckMethod( Main.withFilter0(), "withFilter0")
   }
 
+  "MainCall" should "show origin method with collect " in {
+    callAndCheckMethod( Main.fCollect0{case "bbb" => "ccc"}, "fCollect0")
+  }
+
+
   private def callAndCheckMethod(body: =>Future[_],method:String): Unit = {
     val f = body
     val w = new Waiter

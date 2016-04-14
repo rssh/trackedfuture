@@ -54,7 +54,6 @@ object TrackedFuture
 
   def rFilter[A](future: Future[A], function: A => Boolean, executor: ExecutionContext):Future[A]=
   {
-    System.err.println("rFilter")
     val trace = Thread.currentThread.getStackTrace()
     val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
     future.map { a => trackedCall(
@@ -64,6 +63,16 @@ object TrackedFuture
                         prevTrace) 
                }(executor)
   }
+
+  def collect[A,B](future: Future[A], pf: PartialFunction[A,B], executor: ExecutionContext):Future[B]=
+  {
+    val trace = Thread.currentThread.getStackTrace()
+    val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
+    future.map { a => trackedCall({
+          pf.applyOrElse(a, (t: A) => throw new NoSuchElementException("Future.collect partial function is not defined at: " + t)) 
+    }, prevTrace) }(executor)
+  }
+
 
   private def trackedCall[A](body: =>A, prevTrace:StackTraces):A =
   {
