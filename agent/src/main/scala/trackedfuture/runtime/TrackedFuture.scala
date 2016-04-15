@@ -1,6 +1,7 @@
 package trackedfuture.runtime
 
 import scala.concurrent._
+import scala.util._
 import scala.util.control._
 
 object TrackedFuture
@@ -38,6 +39,15 @@ object TrackedFuture
   def rapply[T](unused: Future.type, body: =>T, executor: ExecutionContext):Future[T]=
         apply(body)(executor)
 
+  def onComplete[T,U](future: Future[T], f: Try[T] => U)(implicit executor: ExecutionContext): Unit =
+  {
+    val trace = Thread.currentThread.getStackTrace()
+    val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
+    future.onComplete( x => trackedCall(f(x),prevTrace) )
+  }
+
+
+
   def rmap[A,B](future: Future[A], function: A => B, executor: ExecutionContext):Future[B]=
   {
     val trace = Thread.currentThread.getStackTrace()
@@ -74,6 +84,7 @@ object TrackedFuture
   }
 
 
+
   private def trackedCall[A](body: =>A, prevTrace:StackTraces):A =
   {
     ThreadTrace.setPrev(prevTrace)
@@ -85,5 +96,6 @@ object TrackedFuture
         throw ex
     }
   }
+
 
 }

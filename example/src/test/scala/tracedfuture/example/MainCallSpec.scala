@@ -4,6 +4,7 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util._
+import java.util.concurrent.{Future => _,_}
 
 import org.scalatest._
 import org.scalatest.concurrent._
@@ -12,6 +13,8 @@ import org.scalatest.concurrent._
 
 class MainCallSpec extends FlatSpec with AsyncAssertions
 {
+
+  val showException=false
 
   "MainCall" should "show origin method between future " in {
     callAndCheckMethod( Main.f0("AAA"), "f0")
@@ -37,6 +40,17 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
     callAndCheckMethod( Main.fCollect0{case "bbb" => "ccc"}, "fCollect0")
   }
 
+  "MainCall" should "show origin method with onComplete " in {
+    var lastError: Option[Throwable] = None 
+    val ec = ExecutionContext.fromExecutor(
+                Executors.newFixedThreadPool(1),
+                e=>lastError=Some(e)
+             )
+    Main.fOnComplete0(ec)
+    Thread.sleep(100)
+    assert(lastError.isDefined)
+    assert(checkMethod("fOnComplete0",lastError.get))
+  }
 
   private def callAndCheckMethod(body: =>Future[_],method:String): Unit = {
     val f = body
@@ -53,7 +67,7 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
   }
 
   private def checkMethod(method:String, ex: Throwable): Boolean = {
-    ex.printStackTrace()
+    if (showException) ex.printStackTrace()
     ex.getStackTrace.toSeq.find( _.getMethodName == method ).isDefined
   }
 

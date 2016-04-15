@@ -26,7 +26,6 @@ object Main
 
   def f0(x:String): Future[Unit] =
   {
-    System.err.print("f0:");
     f1(x)
   }
 
@@ -66,5 +65,13 @@ object Main
   def fCollect1(f:PartialFunction[String,String]):Future[String] =
     Future{ "aaa" } collect f
 
+  def fOnComplete0(ec:ExecutionContext):Unit =
+       fOnComplete1(ec)
+
+  def fOnComplete1(ec:ExecutionContext):Unit =
+  {
+     implicit val _ec: ExecutionContext = ec
+     Future{ "aaa" }.onComplete{ _ => throw new RuntimeException("Be-Be-Be!") }(ec)
+  }
 
 }
