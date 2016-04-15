@@ -3,8 +3,8 @@
 ##  Overview
 
 
-  Contains agent, which substitute in bytecode calls of 
-  ```Future.apply''' ```map```, ```flatMap``` ```filter``` to tracked versions, which save origin caller stack.
+  Contains agent, which substitute in bytecode calls to future method wich accepts callbacks
+  ( ```Future.apply''' ```map```, ```flatMap``` ```filter``` ... etc) to tracked versions which save origin caller stack.
 
    Ie. tracked version collect stack trace of origin thread when appropriative construction is created and then,
   when handle exception, merge one with stack trace of this exception; 

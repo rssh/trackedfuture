@@ -1,0 +1,11 @@
+
+- used part of objectweb asm is packed inside agent jar with changed package.
+- implemented substitutions for
+ ```apply```
+ ```onComplete```
+ ```map```
+ ```flatMap```
+ ```filter```, ```withFilter```,
+ ```collect```
+
+
