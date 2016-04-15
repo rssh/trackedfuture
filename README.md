@@ -92,5 +92,5 @@ f0:java.lang.RuntimeException: AAA
 
 ## Additional Notes
  
-If you want a version with more wrappend methods and frames cleanup - don't hesitate to submit pull request ;)
+If you want a version with more wrappend methods and with frames cleanup - don't hesitate to submit pull request ;)
 
