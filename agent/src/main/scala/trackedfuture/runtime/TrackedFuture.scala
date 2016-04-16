@@ -46,6 +46,12 @@ object TrackedFuture
     future.onComplete( x => trackedCall(f(x),prevTrace) )
   }
 
+  def foreach[T](future: Future[T], f: T => Unit)(implicit executor: ExecutionContext): Unit =
+  {
+    val trace = Thread.currentThread.getStackTrace()
+    val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
+    future.foreach( x => trackedCall(f(x),prevTrace) )
+  }
 
 
   def rmap[A,B](future: Future[A], function: A => B, executor: ExecutionContext):Future[B]=

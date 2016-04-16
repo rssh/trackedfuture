@@ -52,6 +52,18 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
     assert(checkMethod("fOnComplete0",lastError.get))
   }
 
+  "MainCall" should "show origin method with foreach" in {
+    var lastError: Option[Throwable] = None 
+    val ec = ExecutionContext.fromExecutor(
+                Executors.newFixedThreadPool(1),
+                e=>lastError=Some(e)
+    )
+    Main.fForeach0(ec)
+    Thread.sleep(100)
+    assert(lastError.isDefined)
+    assert(checkMethod("fForeach0",lastError.get))
+  }
+
   private def callAndCheckMethod(body: =>Future[_],method:String): Unit = {
     val f = body
     val w = new Waiter

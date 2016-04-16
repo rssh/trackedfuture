@@ -74,4 +74,14 @@ object Main
      Future{ "aaa" }.onComplete{ _ => throw new RuntimeException("Be-Be-Be!") }(ec)
   }
 
+  def fForeach0(ec:ExecutionContext):Unit =
+     fForeach1(ec)
+
+  def fForeach1(ec:ExecutionContext):Unit =
+  {
+     implicit val _ec: ExecutionContext = ec
+     Future{ "aaa" }.foreach{ _ => throw new RuntimeException("Be-Be-Be!") }(ec)
+  }
+
+
 }

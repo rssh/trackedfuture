@@ -2,7 +2,7 @@
 scalaVersion := "2.11.8"
 
 name := "trackedfuture-example"
-version := "0.2"
+version := "0.3"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 
