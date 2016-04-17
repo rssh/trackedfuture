@@ -64,6 +64,11 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
     assert(checkMethod("fForeach0",lastError.get))
   }
 
+  "MainCall" should "show origin method with transform " in {
+    pending
+    callAndCheckMethod( Main.fTransform0(), "fTransform0")
+  }
+
   private def callAndCheckMethod(body: =>Future[_],method:String): Unit = {
     val f = body
     val w = new Waiter

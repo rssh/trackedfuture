@@ -83,5 +83,13 @@ object Main
      Future{ "aaa" }.foreach{ _ => throw new RuntimeException("Be-Be-Be!") }(ec)
   }
 
+  def fTransform0():Future[Int] =
+       fTransform1
+
+  def fTransform1():Future[Int] =
+  {
+     Future{ "aaa" }.transform( ( _.toInt ) , identity )
+  }
+
 
 }
