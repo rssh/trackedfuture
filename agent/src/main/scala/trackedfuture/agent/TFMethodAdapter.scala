@@ -52,7 +52,11 @@ class TFMethodAdapter(up: MethodVisitor) extends MethodVisitor(Opcodes.ASM5, up)
         (Opcodes.INVOKEINTERFACE,
           "scala/concurrent/Future", "foreach", 
           "(Lscala/Function1;Lscala/concurrent/ExecutionContext;)V"
-        ) -> "foreach"
+        ) -> "foreach",
+        (Opcodes.INVOKEINTERFACE,
+          "scala/concurrent/Future", "transform", 
+          "(Lscala/Function1;Lscala/Function1;Lscala/concurrent/ExecutionContext;)Lscala/concurrent/Future;"
+        ) -> "transform"
   )
 
   def appendParam(ownerType: String, desc: String): String =

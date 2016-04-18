@@ -65,7 +65,6 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
   }
 
   "MainCall" should "show origin method with transform " in {
-    pending
     callAndCheckMethod( Main.fTransform0(), "fTransform0")
   }
 

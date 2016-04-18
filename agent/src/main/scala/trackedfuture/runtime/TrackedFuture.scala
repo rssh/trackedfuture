@@ -53,6 +53,16 @@ object TrackedFuture
     future.foreach( x => trackedCall(f(x),prevTrace) )
   }
 
+  def transform[T,S](future: Future[T],
+                   s: T => S, f: Throwable => Throwable)(implicit executor: ExecutionContext): Future[S] = {
+    val trace = Thread.currentThread.getStackTrace()
+    val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
+    //
+    // note, that changign x => trackedCall(x,t) to trackedCall(_,t) change bytecode
+    future.transform( x => trackedCall(s(x),prevTrace), x => trackedCall(f(x),prevTrace) )(executor)
+  }
+    
+
 
   def rmap[A,B](future: Future[A], function: A => B, executor: ExecutionContext):Future[B]=
   {
