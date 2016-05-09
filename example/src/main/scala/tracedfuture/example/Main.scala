@@ -101,4 +101,11 @@ object Main
      }
   }
 
+  def fRecoverWith0():Future[Int] = fRecoverWith1
+
+  def fRecoverWith1():Future[Int] =
+    Future(1/0).recoverWith{
+      case ex: ArithmeticException => throw new RuntimeException("from recoverWith")
+    }
+
 }

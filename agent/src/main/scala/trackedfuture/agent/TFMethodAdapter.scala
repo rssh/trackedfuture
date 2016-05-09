@@ -60,7 +60,11 @@ class TFMethodAdapter(up: MethodVisitor) extends MethodVisitor(Opcodes.ASM5, up)
         (Opcodes.INVOKEINTERFACE,
           "scala/concurrent/Future", "recover", 
           "(Lscala/PartialFunction;Lscala/concurrent/ExecutionContext;)Lscala/concurrent/Future;"
-        ) -> "recover"
+        ) -> "recover",
+        (Opcodes.INVOKEINTERFACE,
+          "scala/concurrent/Future", "recoverWith", 
+          "(Lscala/PartialFunction;Lscala/concurrent/ExecutionContext;)Lscala/concurrent/Future;"
+        ) -> "recoverWith"
   )
 
   def appendParam(ownerType: String, desc: String): String =

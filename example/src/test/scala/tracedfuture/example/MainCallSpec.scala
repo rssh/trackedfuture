@@ -14,7 +14,7 @@ import org.scalatest.concurrent._
 class MainCallSpec extends FlatSpec with AsyncAssertions
 {
 
-  val showException=false
+  var showException=false
 
   "MainCall" should "show origin method between future " in {
     callAndCheckMethod( Main.f0("AAA"), "f0")
@@ -68,10 +68,13 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
     callAndCheckMethod( Main.fTransform0(), "fTransform0")
   }
 
-  "MainCall" should "show origin method with reccover " in {
+  "MainCall" should "show origin method with recover " in {
     callAndCheckMethod( Main.fRecover0(), "fRecover0")
   }
 
+  "MainCall" should "show origin method with recoverWith " in {
+    callAndCheckMethod( Main.fRecoverWith0(), "fRecoverWith0")
+  }
 
   private def callAndCheckMethod(body: =>Future[_],method:String): Unit = {
     val f = body
@@ -81,7 +84,10 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
                            val checked = checkMethod(method,ex)
                            w{ assert(checked) }
                            w.dismiss()
-       case _ => w{ assert(false) }
+       case _ => if (showException) {
+                    System.err.println("w successfull")
+                 }
+                 w{ assert(false) }
                  w.dismiss()
     }
     w.await{timeout(10 seconds)}

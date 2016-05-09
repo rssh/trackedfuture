@@ -1,5 +1,7 @@
 
-- added support for `Future.foreach`
-- added support for `Future.revover`
+- added support for `Future.`
+-- `foreach`
+-- `recover`
+-- `recoverWith`
 
 
