@@ -68,6 +68,11 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
     callAndCheckMethod( Main.fTransform0(), "fTransform0")
   }
 
+  "MainCall" should "show origin method with reccover " in {
+    callAndCheckMethod( Main.fRecover0(), "fRecover0")
+  }
+
+
   private def callAndCheckMethod(body: =>Future[_],method:String): Unit = {
     val f = body
     val w = new Waiter

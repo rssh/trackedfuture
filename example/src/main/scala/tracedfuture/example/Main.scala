@@ -91,5 +91,14 @@ object Main
      Future{ "aaa" }.transform( ( _.toInt ) , identity )
   }
 
+  def fRecover0():Future[Int] =
+       fRecover1
+
+  def fRecover1():Future[Int] =
+  {
+     Future{ "aaa" }.map( ( _.toInt ) ).recover{ 
+             case ex: NumberFormatException => throw new RuntimeException("from recover")
+     }
+  }
 
 }

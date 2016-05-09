@@ -99,6 +99,12 @@ object TrackedFuture
     }, prevTrace) }(executor)
   }
 
+ def recover[T,U >: T](future: Future[T], pf: PartialFunction[Throwable, U])(implicit executor: ExecutionContext): Future[U] = {
+    val trace = Thread.currentThread.getStackTrace()
+    val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
+    future.recover{ trackedPartialFunction(pf, prevTrace) }(executor)
+ }
+
 
 
   private def trackedCall[A](body: =>A, prevTrace:StackTraces):A =
@@ -112,6 +118,12 @@ object TrackedFuture
         throw ex
     }
   }
+
+  private def trackedPartialFunction[A,B](pf: =>PartialFunction[A,B], prevTrace:StackTraces): PartialFunction[A,B] = new PartialFunction[A,B] {
+     override def isDefinedAt(x:A): Boolean = pf.isDefinedAt(x)
+     override def apply(x:A):B = trackedCall(pf(x),prevTrace)
+  }
+
 
 
 }
