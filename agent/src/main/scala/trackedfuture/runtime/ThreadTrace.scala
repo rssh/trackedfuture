@@ -11,7 +11,7 @@ object ThreadTrace extends
 
    def retrieveCurrent():StackTraces =
    {
-     val trace = Thread.currentThread.getStackTrace()
+     val trace = Thread.currentThread.getStackTrace
      new StackTraces(trace, prevTraces.value)
    }
 
@@ -25,7 +25,7 @@ object ThreadTrace extends
      if (prevTraces.value eq null) {
         trace
      } else {
-        (new StackTraces(trace, prevTraces.value)).toTrace
+        new StackTraces(trace, prevTraces.value).toTrace()
      }
    }
 

@@ -1,13 +1,14 @@
 package trackedfuture.example
 
-import scala.concurrent._
-import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util._
-import java.util.concurrent.{Future => _,_}
+import java.util.concurrent.{Future => _, _}
 
 import org.scalatest._
 import org.scalatest.concurrent._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.util._
 
 
 
@@ -50,6 +51,30 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
     Thread.sleep(100)
     assert(lastError.isDefined)
     assert(checkMethod("fOnComplete0",lastError.get))
+  }
+
+  "MainCall" should "show origin method with onFailure " in {
+    var lastError: Option[Throwable] = None
+    val ec = ExecutionContext.fromExecutor(
+      Executors.newFixedThreadPool(1),
+      e=>lastError=Some(e)
+    )
+    Main.fOnFailure0(ec)
+    Thread.sleep(100)
+    assert(lastError.isDefined)
+    assert(checkMethod("fOnFailure0",lastError.get))
+  }
+
+  "MainCall" should "show origin method with onSuccess " in {
+    var lastError: Option[Throwable] = None
+    val ec = ExecutionContext.fromExecutor(
+      Executors.newFixedThreadPool(1),
+      e=>lastError=Some(e)
+    )
+    Main.fOnSuccess0(ec)
+    Thread.sleep(100)
+    assert(lastError.isDefined)
+    assert(checkMethod("fOnSuccess0",lastError.get))
   }
 
   "MainCall" should "show origin method with foreach" in {
