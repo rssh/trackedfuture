@@ -1,5 +1,7 @@
 # Tracked Future
 
+[![Join the chat at https://gitter.im/rssh/trackedfuture](https://badges.gitter.im/rssh/trackedfuture.svg)](https://gitter.im/rssh/trackedfuture?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ##  Overview
 
 
