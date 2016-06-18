@@ -20,10 +20,10 @@ class TrackedFutureTransformer extends ClassFileTransformer {
     } else {
       //System.err.println("transforming class:"+className)
       val writer = new ClassWriter(0)
-      val adapter = new TFClassAdapter(writer)
+      val adapter = new ClassAdapter(writer)
       val reader = new ClassReader(classfileBuffer)
       reader.accept(adapter, 0)
-      writer.toByteArray()
+      writer.toByteArray
     }
   }
 

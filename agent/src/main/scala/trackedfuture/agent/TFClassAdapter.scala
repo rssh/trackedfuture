@@ -2,7 +2,7 @@ package trackedfuture.agent
 
 import org.objectweb.asm._
 
-class TFClassAdapter(up: ClassVisitor) extends ClassVisitor(Opcodes.ASM5, up) {
+class ClassAdapter(up: ClassVisitor) extends ClassVisitor(Opcodes.ASM5, up) {
 
 
   override def visitMethod(access: Int, name: String, desc: String,

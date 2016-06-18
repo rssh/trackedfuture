@@ -3,9 +3,6 @@ package trackedfuture.util
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer
 
-/**
-  * Created by ovoievodin on 16.06.2016.
-  */
 class ThreadLocalIterator[A](clazz: Class[A]) extends Iterable[A]{
 
 
