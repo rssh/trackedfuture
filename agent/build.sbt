@@ -13,11 +13,7 @@ assemblyShadeRules in assembly := Seq(
       ShadeRule.rename("org.objectweb.asm.**" -> "trackedfuture.org.objectweb.asm.@1").inAll
 )
 artifact in (Compile, assembly) := (artifact in (Compile, assembly)).value.copy(`classifier` = Some("assembly"))
-  
 addArtifact(artifact in (Compile, assembly), assembly)
-
-
-//assemblyJarName in assembly := s"${name}-agent-${version}"
 
 exportJars := true
 
