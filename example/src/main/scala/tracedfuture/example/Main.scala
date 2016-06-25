@@ -88,7 +88,7 @@ object Main {
   }
 
   def fOnFailure1(ec: ExecutionContext): Unit = {
-    Future(1 / 0).onFailure { case ex: ArithmeticException => throw new RuntimeException("from onFailure") }(ec)
+    Future (1/0).onFailure{ case ex: ArithmeticException => throw new RuntimeException("from onFailure") }(ec)
   }
 
   def fOnSuccess0(ec: ExecutionContext): Unit = {
@@ -96,7 +96,7 @@ object Main {
   }
 
   def fOnSuccess1(ec: ExecutionContext): Unit = {
-    Future(1).onSuccess { case 1 => throw new RuntimeException("from onSuccess") }(ec)
+    Future (1).onSuccess{ case 1 => throw new RuntimeException("from onSuccess") }(ec)
   }
 
   def fForeach0(ec: ExecutionContext): Unit =
@@ -135,30 +135,6 @@ object Main {
     Future(1 / 0).recoverWith {
       case ex: ArithmeticException => throw new RuntimeException("from recoverWith")
     }
-
-  def awaitReady0(ec: ExecutionContext) = {
-    awaitReady1(ec)
-  }
-
-  def awaitReady1(ec: ExecutionContext) = {
-    val f = Future {
-      Thread.sleep(10 * 1000)
-    }(ec)
-
-    Await.ready(f, 1000 millis)
-  }
-
-  def awaitResult0(ec: ExecutionContext) = {
-    awaitResult1(ec)
-  }
-
-  def awaitResult1(ec: ExecutionContext) = {
-    val f = Future {
-      Thread.sleep(10 * 1000)
-    }(ec)
-
-    Await.result(f, 1000 millis)
-  }
 
 
 }
