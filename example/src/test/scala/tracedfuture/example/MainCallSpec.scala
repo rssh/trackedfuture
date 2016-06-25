@@ -101,36 +101,6 @@ class MainCallSpec extends FlatSpec with AsyncAssertions
     callAndCheckMethod( Main.fRecoverWith0(), "fRecoverWith0")
   }
 
-  "MainCall" should "show origin from future for AwaitReady" in {
-    var lastError: Exception = null
-    val ec = ExecutionContext.fromExecutor(
-      Executors.newFixedThreadPool(1)
-    )
-    try {
-      Main.awaitReady0(ec)
-    } catch {
-      case ex: TimeoutException => lastError = ex
-    }
-
-    Thread.sleep(100)
-    assert(checkMethod("awaitReady0",lastError))
-  }
-
-  "MainCall" should "show origin from future for AwaitResult" in {
-    var lastError: Exception = null
-    val ec = ExecutionContext.fromExecutor(
-      Executors.newFixedThreadPool(1)
-    )
-    try {
-      Main.awaitResult0(ec)
-    } catch {
-      case ex: TimeoutException => lastError = ex
-    }
-
-    Thread.sleep(100)
-    assert(checkMethod("awaitResult0",lastError))
-  }
-
   private def callAndCheckMethod(body: =>Future[_],method:String): Unit = {
     val f = body
     val w = new Waiter
