@@ -2,8 +2,10 @@ package trackedfuture.example
 
 import java.util.concurrent.{Future => _, _}
 
+import scala.language.postfixOps
 import org.scalatest._
 import org.scalatest.concurrent._
+import org.scalatest.flatspec._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
@@ -12,7 +14,7 @@ import scala.util._
 
 
 
-class MainCallSpec extends FlatSpec with AsyncAssertions
+class MainCallSpec extends AnyFlatSpec with Waiters
 {
 
   var showException=false

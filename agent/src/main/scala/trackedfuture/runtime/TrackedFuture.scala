@@ -59,6 +59,11 @@ object TrackedFuture {
     future.transform(x => trackedCall(s(x), prevTrace), x => trackedCall(f(x), prevTrace))(executor)
   }
 
+  def andThen[T,U](future: Future[T], pf: PartialFunction[Try[T], U])(implicit executor: ExecutionContext): Future[T] = {
+    val trace = Thread.currentThread.getStackTrace
+    val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
+    future.andThen(x => trackedCall(pf(x), prevTrace))(executor)
+  }
 
   def rmap[A, B](future: Future[A], function: A => B, executor: ExecutionContext): Future[B] = {
     val trace = Thread.currentThread.getStackTrace
@@ -126,17 +131,6 @@ object TrackedFuture {
     }
   }
 
-  def onSuccess[T, U >: T](future: Future[T], pf: PartialFunction[T, Future[U]])(implicit executor: ExecutionContext): Unit = {
-    val trace = Thread.currentThread().getStackTrace
-    val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
-    future.onSuccess{trackedPartialFunction(pf, prevTrace)}(executor)
-  }
-
-  def onFailure[T, U >: T](future: Future[T], pf: PartialFunction[Throwable, Future[U]])(implicit executor: ExecutionContext): Unit = {
-    val trace = Thread.currentThread().getStackTrace
-    val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
-    future.onFailure{trackedPartialFunction(pf, prevTrace)}(executor)
-  }
 
 
 }

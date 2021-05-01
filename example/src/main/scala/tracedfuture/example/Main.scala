@@ -1,8 +1,10 @@
 package trackedfuture.example
 
+import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
+import scala.util._
 
 object Main {
 
@@ -77,7 +79,6 @@ object Main {
     fOnComplete1(ec)
 
   def fOnComplete1(ec: ExecutionContext): Unit = {
-    implicit val _ec: ExecutionContext = ec
     Future {
       "aaa"
     }.onComplete { _ => throw new RuntimeException("Be-Be-Be!") }(ec)
@@ -88,7 +89,14 @@ object Main {
   }
 
   def fOnFailure1(ec: ExecutionContext): Unit = {
-    Future(1 / 0).onFailure { case ex: ArithmeticException => throw new RuntimeException("from onFailure") }(ec)
+    // onFailure is removed
+    //Future(1 / 0).onFailure { case ex: ArithmeticException => throw new RuntimeException("from onFailure") }(ec)
+    Future(1 / 0).onComplete { 
+       case Success(v) =>  
+       case Failure(ex: ArithmeticException) => throw new RuntimeException("from onFailure") 
+       case _ =>  
+    }(ec)
+
   }
 
   def fOnSuccess0(ec: ExecutionContext): Unit = {
@@ -96,14 +104,17 @@ object Main {
   }
 
   def fOnSuccess1(ec: ExecutionContext): Unit = {
-    Future(1).onSuccess { case 1 => throw new RuntimeException("from onSuccess") }(ec)
+    // Future(1).onSuccess { case 1 => throw new RuntimeException("from onSuccess") }(ec)
+    Future(1).onComplete { 
+       case Success(x) => if (x==1) throw new RuntimeException("from onSuccess") 
+       case Failure(ex) => ex.printStackTrace()
+    }(ec)
   }
 
   def fForeach0(ec: ExecutionContext): Unit =
     fForeach1(ec)
 
   def fForeach1(ec: ExecutionContext): Unit = {
-    implicit val _ec: ExecutionContext = ec
     Future {
       "aaa"
     }.foreach { _ => throw new RuntimeException("Be-Be-Be!") }(ec)

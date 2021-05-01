@@ -1,5 +1,6 @@
 package trackedfuture.runtime
 
+import scala.language.postfixOps
 import scala.concurrent._
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -7,14 +8,15 @@ import scala.util._
 
 import org.scalatest._
 import org.scalatest.concurrent._
+import flatspec._
 
 
 
-class ExceptionSpec extends FlatSpec with AsyncAssertions
+class ExceptionSpec extends AnyFlatSpec with Waiters
 {
 
   "TrackedFuture" should "show origin thread between when trowing exception" in {
-    val callCodeLine = 20; //!!! - point of code [TODO: implement __LINE__ as macro]
+    val callCodeLine = 25; //!!! - point of code [TODO: implement __LINE__ as macro]
     def middleFun(): Future[Unit] = {
       val x = 1
       TrackedFuture { //!!! here is callCodeLine

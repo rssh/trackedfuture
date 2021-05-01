@@ -51,13 +51,9 @@ class MethodAdapter(up: MethodVisitor) extends MethodVisitor(Opcodes.ASM5, up) {
       "(Lscala/PartialFunction;Lscala/concurrent/ExecutionContext;)Lscala/concurrent/Future;"
       ) ->("trackedfuture/runtime/TrackedFuture", "recoverWith"),
     (Opcodes.INVOKEINTERFACE,
-      "scala/concurrent/Future", "onSuccess",
+      "scala/concurrent/Future", "andThen",
       "(Lscala/PartialFunction;Lscala/concurrent/ExecutionContext;)V"
-      ) ->("trackedfuture/runtime/TrackedFuture", "onSuccess"),
-    (Opcodes.INVOKEINTERFACE,
-      "scala/concurrent/Future", "onFailure",
-      "(Lscala/PartialFunction;Lscala/concurrent/ExecutionContext;)V"
-      ) ->("trackedfuture/runtime/TrackedFuture", "onFailure"),
+      ) ->("trackedfuture/runtime/TrackedFuture", "andThen"),
     (Opcodes.INVOKEVIRTUAL,
       "scala/concurrent/Await$", "ready",
       "(Lscala/concurrent/Awaitable;Lscala/concurrent/duration/Duration;)Lscala/concurrent/Awaitable;"
