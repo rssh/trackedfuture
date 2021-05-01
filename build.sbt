@@ -1,14 +1,15 @@
 
 
 lazy val commonSettings = Seq(
-  version := "0.5.0-SNAPSHOT",
+  version := "0.4.1",
   organization := "com.github.rssh",
   scalaVersion := "2.13.5"
 )
 
 
 lazy val root = (project in file(".")).aggregate(agent,example).settings(
-                  run/aggregate := false
+                  run/aggregate := false,
+                  publishArtifact := false
                 ).disablePlugins(sbtassembly.AssemblyPlugin)
 
 lazy val agent = project.in(file("agent")).settings(commonSettings: _*)
@@ -38,6 +39,7 @@ lazy val example = project.in(file("example")).
                          settings(
                            name := "trackedfuture-example",
                            publish := false,
+                           publishArtifact := false,
                            fork := true,
                            libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.7" % "test",
                            // test assembly here:
