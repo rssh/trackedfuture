@@ -1,5 +1,5 @@
 
-ThisBuild/version := "0.4.1"
+ThisBuild/version := "0.4.2-SNAPSHOT"
 ThisBuild/versionScheme := Some("semver-spec")
 
 lazy val commonSettings = Seq(
@@ -20,11 +20,11 @@ lazy val agent = project.in(file("agent")).settings(commonSettings: _*)
                            ShadeRule.rename("org.objectweb.asm.**" -> "trackedfuture.org.objectweb.asm.@1").inAll
                         ),
                         assembly / assemblyOption := (assembly / assemblyOption).value.copy(includeScala = false),
-                        Compile / assembly / artifact := {
-                           val art = (Compile / assembly / artifact).value
+                        assembly / artifact := {
+                           val art = ( assembly / artifact).value
                            art.withClassifier(Some("assembly"))
                         },
-                        addArtifact(Compile / assembly / artifact, assembly),
+                        addArtifact( assembly / artifact, assembly),
                         exportJars := true,
                         compile/packageBin/packageOptions += {
                           val file = new java.io.File("agent/src/main/resource/META-INF/MANIFEST.MF")
@@ -39,13 +39,13 @@ lazy val example = project.in(file("example")).
                          settings(commonSettings).
                          settings(
                            name := "trackedfuture-example",
-                           publish/skip := false,
+                           publish/skip := true,
                            fork := true,
                            libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.7" % "test",
                            // test assembly here:
                            javaOptions += s"-javaagent:../agent/target/scala-2.13/trackedfuture_2.13-${version.value}.jar"
                            // test published assembly:
-                           //javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/${version.value}/jars/trackedfuture_2.11-assembly.jar"""
+                           //javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.13/${version.value}/jars/trackedfuture_2.11-assembly.jar"""
                          ).
                          dependsOn(agent).
                          disablePlugins(sbtassembly.AssemblyPlugin)
