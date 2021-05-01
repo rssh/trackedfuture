@@ -1,7 +1,8 @@
 
+ThisBuild/version := "0.4.1"
+ThisBuild/versionScheme := Some("semver-spec")
 
 lazy val commonSettings = Seq(
-  version := "0.4.1",
   organization := "com.github.rssh",
   scalaVersion := "2.13.5"
 )
@@ -38,8 +39,7 @@ lazy val example = project.in(file("example")).
                          settings(commonSettings).
                          settings(
                            name := "trackedfuture-example",
-                           publish := false,
-                           publishArtifact := false,
+                           publish/skip := false,
                            fork := true,
                            libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.7" % "test",
                            // test assembly here:
