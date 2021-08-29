@@ -20,8 +20,12 @@
   *  when debug, enable agent 
 ~~~scala
 fork := true
-javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.11/0.2/jars/trackedfuture_2.11-assembly.jar"""
+javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_<scalaVersion>/<version>/jars/trackedfuture_2.11-assembly.jar"""
 ~~~
+
+Use
+ * 0.5.0 version for scala 3
+ * 0.4.2 for scala 2.13.5
 
 ##  Results 
 
