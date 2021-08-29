@@ -20,8 +20,17 @@
   *  when debug, enable agent 
 ~~~scala
 fork := true
-javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_<scalaVersion>/<version>/jars/trackedfuture_2.11-assembly.jar"""
+javaOptions ++= Seq(
+  "--add-opens", 
+  "java.base/java.lang=ALL-UNNAMED",
+  s"-javaagent:${System.getProperty("user.home")}/<repoDir>_<scalaVersion>/<version>/jars/trackedfuture_<scalaVersion>-assembly.jar"
+)
 ~~~
+
+ where 
+  - repoDir - location of you local repository
+  - scalaVersion - is a scala version as it used in artefacts suffixes
+  - version - version of trackedfuture
 
 Use
  * 0.5.0 version for scala 3
