@@ -121,7 +121,7 @@ object Main {
   }
 
   def fTransform0(): Future[Int] =
-    fTransform1
+    fTransform1()
 
   def fTransform1(): Future[Int] = {
     Future {
@@ -130,7 +130,7 @@ object Main {
   }
 
   def fRecover0(): Future[Int] =
-    fRecover1
+    fRecover1()
 
   def fRecover1(): Future[Int] = {
     Future {
@@ -140,7 +140,7 @@ object Main {
     }
   }
 
-  def fRecoverWith0(): Future[Int] = fRecoverWith1
+  def fRecoverWith0(): Future[Int] = fRecoverWith1()
 
   def fRecoverWith1(): Future[Int] =
     Future(1 / 0).recoverWith {

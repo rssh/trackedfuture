@@ -8,7 +8,7 @@ class StackTraces(elements: Array[StackTraceElement], prev: StackTraces = null) 
 
   def getCurrentFuture[T]: Future[Unit] = currentFuture
 
-  def setCurrentFuture(f: Future[Unit]) {
+  def setCurrentFuture(f: Future[Unit]): Unit = {
     currentFuture = f
   }
 

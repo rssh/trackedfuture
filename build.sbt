@@ -1,10 +1,10 @@
 
-ThisBuild/version := "0.4.2-SNAPSHOT"
+ThisBuild/version := "0.5.0"
 ThisBuild/versionScheme := Some("semver-spec")
 
 lazy val commonSettings = Seq(
   organization := "com.github.rssh",
-  scalaVersion := "2.13.5"
+  scalaVersion := "3.0.1"
 )
 
 
@@ -32,7 +32,7 @@ lazy val agent = project.in(file("agent")).settings(commonSettings: _*)
                           Package.JarManifest(manifest)
                         },
                         libraryDependencies += "org.ow2.asm" % "asm" % "9.1",
-                        libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.7" % "test"
+                        libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % "test"
                      )
 
 lazy val example = project.in(file("example")).
@@ -41,9 +41,10 @@ lazy val example = project.in(file("example")).
                            name := "trackedfuture-example",
                            publish/skip := true,
                            fork := true,
-                           libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.7" % "test",
+                           libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % "test",
+                           javaOptions ++= Seq("--add-opens", "java.base/java.lang=ALL-UNNAMED"),
                            // test assembly here:
-                           javaOptions += s"-javaagent:../agent/target/scala-2.13/trackedfuture_2.13-${version.value}.jar"
+                           javaOptions += s"-javaagent:../agent/target/scala-3.0.1/trackedfuture_3-${version.value}.jar"
                            // test published assembly:
                            //javaOptions += s"""-javaagent:${System.getProperty("user.home")}/.ivy2/local/com.github.rssh/trackedfuture_2.13/${version.value}/jars/trackedfuture_2.11-assembly.jar"""
                          ).

@@ -62,7 +62,7 @@ object TrackedFuture {
   def andThen[T,U](future: Future[T], pf: PartialFunction[Try[T], U])(implicit executor: ExecutionContext): Future[T] = {
     val trace = Thread.currentThread.getStackTrace
     val prevTrace = new StackTraces(trace, ThreadTrace.prevTraces.value)
-    future.andThen(x => trackedCall(pf(x), prevTrace))(executor)
+    future.andThen{case x => trackedCall(pf(x), prevTrace)}(executor)
   }
 
   def rmap[A, B](future: Future[A], function: A => B, executor: ExecutionContext): Future[B] = {
